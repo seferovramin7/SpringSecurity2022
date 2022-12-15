@@ -2,6 +2,7 @@ package com.example.springsecurity2022.config;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
+import com.example.springsecurity2022.dao.UserDao;
 import java.io.IOException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -11,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -21,7 +21,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
 
-    private final UserDetailsService userDetailsService;
+    private final UserDao userDao;
+    //    private final UserDetailsService userDetailsService;
     private final JwtUtils jwtUtils;
 
     @Override
@@ -39,7 +40,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 //        userEmail = "something@gmail.com";
         userEmail = jwtUtils.extractUsername(jwtToken);
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
+            UserDetails userDetails = userDao.findUserByEmail(userEmail);
 //            final boolean isTokenValid;
             final boolean isTokenValid = jwtUtils.isTokenValid(jwtToken, userDetails);
             if (isTokenValid) {
