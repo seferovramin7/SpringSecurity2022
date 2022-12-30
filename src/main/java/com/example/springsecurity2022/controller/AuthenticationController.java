@@ -22,7 +22,6 @@ public class AuthenticationController {
     private final UserDao userDao;
 //    private final UserDetailsService userDetailsService;
 
-
     private final JwtUtils jwtUtils;
 
     @PostMapping("authenticate")

@@ -29,14 +29,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    private final static List<UserDetails> APPLICATION_USERS = Arrays.asList(
-            new User("seferovramin7@gmail.com",
-                    "password",
-                    Collections.singleton(new SimpleGrantedAuthority("ROLE_ADMIN"))),
-            new User("ramin.safarov@kapitalbank.az",
-                    "password123",
-                    Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")))
-    );
+
     private final JwtAuthFilter jwtAuthFilter;
     private final UserDao userDao;
 
@@ -53,8 +46,7 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authenticationProvider(authenticationProvider())
-                .addFilterBefore(jwtAuthFilter,
-                        UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 //                .httpBasic();
 //                .and()
 //                .formLogin();
@@ -79,7 +71,6 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance();
-//        return new BCryptPasswordEncoder();
     }
 
     @Bean

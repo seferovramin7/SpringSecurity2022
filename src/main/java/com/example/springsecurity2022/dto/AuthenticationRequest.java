@@ -1,14 +1,11 @@
 package com.example.springsecurity2022.dto;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 public class AuthenticationRequest {
     private String email;
     private String password;
-
 }
